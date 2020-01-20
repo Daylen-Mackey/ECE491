@@ -1,9 +1,13 @@
 
 from tkinter import *
 from tkinter.ttk import Combobox
+import tkSimpleDialog as simpledialog
 
 class MyWindow:
     def __init__(self, win):
+        # Frame.__init__(self)
+        self.edited = False
+        self.textEntryVar = StringVar()
         # Title
         self.ttle = Label(win, text = 'X-Calibrator')
         self.ttle.place(x = 350, y = 0)
@@ -40,9 +44,13 @@ class MyWindow:
 
         self.intTimeIn = Entry(bd=3, width = 10)
         self.intTimeIn.place(x = 150, y =70)
+        self.intTimeIn.bind('<FocusIn>',self.numpadEntry)
+        self.intTimeIn.bind('<FocusOut>',self.numpadExit)
 
-        self.samplesIn = Entry(bd=3, width = 10)
+        self.samplesIn = Entry(bd=3, width = 10,textvariable=self.textEntryVar)
         self.samplesIn.place(x = 150, y = 100)
+        self.samplesIn.bind('<FocusIn>',self.numpadEntry)
+        self.samplesIn.bind('<FocusOut>',self.numpadExit)
         
         self.totTimeIn = Entry(bd=3, width = 10)
         self.totTimeIn.place(x = 150, y =130)
@@ -77,57 +85,105 @@ class MyWindow:
         R2.pack( anchor = W )
         R1.place(x = 10, y = 195)
         R2.place(x = 10, y = 215)
+    def numpadEntry(self,event):
+        if self.edited == False:
+            print("You Clicked on me")
+            # self.e['bg']= '#ffffcc'
+            self.edited = True
+            new = numPad(self,self)
+        else:
+            self.edited = False
 
-        # v = StringVar(win, "1") 
+    def numpadExit(self,event):
+        print('hi')
+        # self.e['bg']= '#ffffff'
+
+class numPad(simpledialog.Dialog):
+    def __init__(self,master=None,parent=None):
+        self.parent = parent
+        self.top = Toplevel()
+        self.top.protocol("WM_DELETE_WINDOW",self.ok)
+        self.createWidgets()
+    def createWidgets(self):
+        btn_list = ['7',  '8',  '9', '4',  '5',  '6', '1',  '2',  '3', '0',  'Close',  'Del']
+        # create and position all buttons with a for-loop
+        # r, c used for row, column grid values
+        r = 1
+        c = 0
+        n = 0
+        # list(range()) needed for Python3
+        btn = []
+        for label in btn_list:
+            # partial takes care of function and argument
+            cmd = lambda x = label: self.click(x)
+            # create the button
+            cur = Button(self.top, text=label, width=10, height=5, command=cmd)
+            btn.append(cur)
+            # position the button
+            btn[-1].grid(row=r, column=c)
+            # increment button index
+            n += 1
+            # update row/column position
+            c += 1
+            if c == 3:
+                c = 0
+                r += 1
+    def click(self,label):
+        print(label)
+        if label == 'Del':
+            currentText = self.parent.textEntryVar.get()
+            self.parent.textEntryVar.set(currentText[:-1])
+        elif label == 'Close':
+            self.ok()
+        else:
+            currentText = self.parent.textEntryVar.get()
+            self.parent.textEntryVar.set(currentText+label)
+    def ok(self):
+        self.top.destroy()
+        self.top.master.focus()
 
 
-        # values = {"RadioButton 1" : "1", 
-        #   "RadioButton 2" : "2" }
-        # for (text, value) in values.items(): 
-        #     Radiobutton(win, text = text, variable = v,  
-        #         value = value, indicator = 0, 
-        #         background = "light blue").pack(fill = X, ipady = 5) 
+
+     
+# ------- EVERYTHING HERE IS FOR REFERENCE -------- #
+    #     self.lbl1=Label(win, text='First number')
+    #     self.lbl1.place(x=400, y=50)
+
+    #     self.lbl2=Label(win, text='Second number')
+    #     self.lbl2.place(x=400, y=100)
 
 
-
-
-
-        self.lbl1=Label(win, text='First number')
-        self.lbl1.place(x=400, y=50)
-
-        self.lbl2=Label(win, text='Second number')
-        self.lbl2.place(x=400, y=100)
-
-
-        self.lbl3=Label(win, text='Result')
-        self.t1=Entry(bd=3)
-        self.t2=Entry()
-        self.t3=Entry()
-        # self.btn1 = Button(win, text='Add')
-        # self.btn2=Button(win, text='Subtract')
+    #     self.lbl3=Label(win, text='Result')
+    #     self.t1=Entry(bd=3)
+    #     self.t2=Entry()
+    #     self.t3=Entry()
+    #     # self.btn1 = Button(win, text='Add')
+    #     # self.btn2=Button(win, text='Subtract')
         
-        self.t1.place(x=500, y=50)
+    #     self.t1.place(x=500, y=50)
         
-        self.t2.place(x=500, y=100)
-        self.b1=Button(win, text='Add', command=self.add)
-        self.b2=Button(win, text='Subtract')
-        self.b2.bind('<Button-1>', self.sub)
-        self.b1.place(x=450, y=150)
-        self.b2.place(x=500, y=150)
-        self.lbl3.place(x=400, y=200)
-        self.t3.place(x=500, y=200)
-    def add(self):
-        self.t3.delete(0, 'end')
-        num1=int(self.t1.get())
-        num2=int(self.t2.get())
-        result=num1+num2
-        self.t3.insert(END, str(result))
-    def sub(self, event):
-        self.t3.delete(0, 'end')
-        num1=int(self.t1.get())
-        num2=int(self.t2.get())
-        result=num1-num2
-        self.t3.insert(END, str(result))
+    #     self.t2.place(x=500, y=100)
+    #     self.b1=Button(win, text='Add', command=self.add)
+    #     self.b2=Button(win, text='Subtract')
+    #     self.b2.bind('<Button-1>', self.sub)
+    #     self.b1.place(x=450, y=150)
+    #     self.b2.place(x=500, y=150)
+    #     self.lbl3.place(x=400, y=200)
+    #     self.t3.place(x=500, y=200)
+    # def add(self):
+    #     self.t3.delete(0, 'end')
+    #     num1=int(self.t1.get())
+    #     num2=int(self.t2.get())
+    #     result=num1+num2
+    #     self.t3.insert(END, str(result))
+    # def sub(self, event):
+    #     self.t3.delete(0, 'end')
+    #     num1=int(self.t1.get())
+    #     num2=int(self.t2.get())
+    #     result=num1-num2
+    #     self.t3.insert(END, str(result))
+
+#-------EVERYTHING ABOVE IS FOR REFERENCE -------# 
 
 
 
