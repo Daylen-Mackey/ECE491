@@ -7,7 +7,7 @@ class MyWindow:
     def __init__(self, win):
         # Frame.__init__(self)
         self.edited = False
-        self.textEntryVar = StringVar()
+        
         # Title
         self.ttle = Label(win, text = 'X-Calibrator')
         self.ttle.place(x = 350, y = 0)
@@ -42,12 +42,14 @@ class MyWindow:
         self.measIn = Entry(bd=3, width = 10)
         self.measIn.place(x = 150, y = 40)
 
-        self.intTimeIn = Entry(bd=3, width = 10)
+        self.intTimeText = StringVar()
+        self.intTimeIn = Entry(bd=3, width = 10,textvariable=self.intTimeText)
         self.intTimeIn.place(x = 150, y =70)
         self.intTimeIn.bind('<FocusIn>',self.numpadEntry)
         self.intTimeIn.bind('<FocusOut>',self.numpadExit)
-
-        self.samplesIn = Entry(bd=3, width = 10,textvariable=self.textEntryVar)
+        
+        self.samplesText = StringVar()
+        self.samplesIn = Entry(bd=3, width = 10,textvariable=self.samplesText)
         self.samplesIn.place(x = 150, y = 100)
         self.samplesIn.bind('<FocusIn>',self.numpadEntry)
         self.samplesIn.bind('<FocusOut>',self.numpadExit)
@@ -85,6 +87,60 @@ class MyWindow:
         R2.pack( anchor = W )
         R1.place(x = 10, y = 195)
         R2.place(x = 10, y = 215)
+
+
+    # ------- EVERYTHING HERE IS FOR REFERENCE -------- #
+
+    #     self.lbl1=Label(win, text='First number')
+    #     self.lbl1.place(x=400, y=50)
+
+    #     self.lbl2=Label(win, text='Second number')
+    #     self.lbl2.place(x=400, y=100)
+
+
+    #     self.lbl3=Label(win, text='Result')
+    #     self.t1=Entry(bd=3)
+    #     self.t2=Entry()
+    #     self.t3=Entry()
+    #     self.btn1 = Button(win, text='Add')
+    #     self.btn2=Button(win, text='Subtract')
+        
+    #     self.t1.place(x=500, y=50)
+        
+    #     self.t2.place(x=500, y=100)
+    #     self.b1=Button(win, text='Add', command=self.add)
+    #     self.b2=Button(win, text='Subtract')
+    #     self.b2.bind('<Button-1>', self.sub)
+    #     self.b1.place(x=450, y=150)
+    #     self.b2.place(x=500, y=150)
+    #     self.lbl3.place(x=400, y=200)
+    #     self.t3.place(x=500, y=200)
+    # def add(self):
+    #     self.t3.delete(0, 'end')
+    #     num1=int(self.t1.get())
+    #     num2=int(self.t2.get())
+    #     result=num1+num2
+    #     self.t3.insert(END, str(result))
+    # def sub(self, event):
+    #     self.t3.delete(0, 'end')
+    #     num1=int(self.t1.get())
+    #     num2=int(self.t2.get())
+    #     result=num1-num2
+    #     self.t3.insert(END, str(result))
+
+# -------EVERYTHING ABOVE IS FOR REFERENCE -------# 
+    def set_active_entry(self, name):
+        self._active_entry = name
+        print(self._active_entry)
+
+    @property
+    def active_entry(self):
+        return getattr(self, self._active_entry)
+
+    @active_entry.setter
+    def active_entry(self, value):
+        setattr(self, self._active_entry, value)
+    
     def numpadEntry(self,event):
         if self.edited == False:
             print("You Clicked on me")
@@ -117,7 +173,7 @@ class numPad(simpledialog.Dialog):
             # partial takes care of function and argument
             cmd = lambda x = label: self.click(x)
             # create the button
-            cur = Button(self.top, text=label, width=10, height=5, command=cmd)
+            cur = Button(self.top, text=label, width=8, height=3, command=cmd)
             btn.append(cur)
             # position the button
             btn[-1].grid(row=r, column=c)
@@ -145,45 +201,7 @@ class numPad(simpledialog.Dialog):
 
 
      
-# ------- EVERYTHING HERE IS FOR REFERENCE -------- #
-    #     self.lbl1=Label(win, text='First number')
-    #     self.lbl1.place(x=400, y=50)
 
-    #     self.lbl2=Label(win, text='Second number')
-    #     self.lbl2.place(x=400, y=100)
-
-
-    #     self.lbl3=Label(win, text='Result')
-    #     self.t1=Entry(bd=3)
-    #     self.t2=Entry()
-    #     self.t3=Entry()
-    #     # self.btn1 = Button(win, text='Add')
-    #     # self.btn2=Button(win, text='Subtract')
-        
-    #     self.t1.place(x=500, y=50)
-        
-    #     self.t2.place(x=500, y=100)
-    #     self.b1=Button(win, text='Add', command=self.add)
-    #     self.b2=Button(win, text='Subtract')
-    #     self.b2.bind('<Button-1>', self.sub)
-    #     self.b1.place(x=450, y=150)
-    #     self.b2.place(x=500, y=150)
-    #     self.lbl3.place(x=400, y=200)
-    #     self.t3.place(x=500, y=200)
-    # def add(self):
-    #     self.t3.delete(0, 'end')
-    #     num1=int(self.t1.get())
-    #     num2=int(self.t2.get())
-    #     result=num1+num2
-    #     self.t3.insert(END, str(result))
-    # def sub(self, event):
-    #     self.t3.delete(0, 'end')
-    #     num1=int(self.t1.get())
-    #     num2=int(self.t2.get())
-    #     result=num1-num2
-    #     self.t3.insert(END, str(result))
-
-#-------EVERYTHING ABOVE IS FOR REFERENCE -------# 
 
 
 
