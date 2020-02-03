@@ -21,12 +21,35 @@ class MyWindow:
         # background_image=tk.PhotoImage('Decay.png')
         # background_label = Label(win, image=background_image)
         # background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
+        # --- Establishing Entry Variables ---#
+
+        self.measVar = StringVar()
+        self.intTimeVar = StringVar()
+        self.samplesVar = StringVar()
+        self.totTimeVar = StringVar()
+        self.biasVar = StringVar()
+        self.tempVar = StringVar()
+        self.pressureVar = StringVar()
+        self.correctionVar = StringVar()
+        self.averagesVar = StringVar()
+        self.measTimeVar = StringVar()
+        self.intervalTimeVar= StringVar()
+        self.pCVar = StringVar()
+        self.pAVar = StringVar()
+
+        self.textVariables = ['measVar', 'intTimeVar', 'samplesVar',
+        'totTimeVar', 'biasVar', 'tempVar', 'pressureVar',
+        'correctionVar', 'averagesVar', 'measTimeVar', 'intervalTimeVar',
+        'pCVar', 'pAVar'
+        ]
 
 
         self.labelling(win)
         self.entries(win)
         self.buttons(win)
         self.placing(win)
+        self.binding(win)
         
 
     def labelling(self,win):
@@ -55,24 +78,30 @@ class MyWindow:
 
 
     def entries(self,win):
-        self.measIn = Entry(bd=3, width = 10)
-        self.intTimeIn = Entry(bd=3, width = 10,textvariable=None)
-        self.samplesIn = Entry(bd=3, width = 10,textvariable=None)
-        self.totTimeIn = Entry(bd=3, width = 10)
-        self.biasIn = Entry(bd=3, width = 10)
+        self.measIn = Entry(bd=3, width = 10,textvariable=self.measVar)
+        self.intTimeIn = Entry(bd=3, width = 10,textvariable=self.intTimeVar)
+        self.samplesIn = Entry(bd=3, width = 10,textvariable=self.samplesVar)
+        self.totTimeIn = Entry(bd=3, width = 10,textvariable=self.totTimeVar)
+        self.biasIn = Entry(bd=3, width = 10,textvariable=self.biasVar)
 
         # Left Side
-        self.tempIn = Entry(bd=3, width = 10)
-        self.pressureIn = Entry(bd=3, width = 10)
-        self.correctionIn = Entry(bd=3, width = 10)
+        self.tempIn = Entry(bd=3, width = 10,textvariable=self.tempVar)
+        self.pressureIn = Entry(bd=3, width = 10,textvariable=self.pressureVar)
+        self.correctionIn = Entry(bd=3, width = 10,textvariable=self.correctionVar)
         
-        self.averagesIn = Entry(bd=3, width = 10)
-        self.measTimeIn = Entry(bd=3, width = 10)
-        self.intervalTimeIn = Entry(bd=3, width = 10)
+        self.averagesIn = Entry(bd=3, width = 10,textvariable=self.averagesVar)
+        self.measTimeIn = Entry(bd=3, width = 10,textvariable=self.measTimeVar)
+        self.intervalTimeIn = Entry(bd=3, width = 10,textvariable=self.intervalTimeVar)
         
         # Results
-        self.pC = Entry(bd=5, width = 10)
-        self.pA = Entry(bd=5, width = 10)
+        self.pC = Entry(bd=5, width = 10,textvariable=self.pCVar)
+        self.pA = Entry(bd=5, width = 10,textvariable=self.pAVar)
+
+        self.entryList = [ 'measIn', 'intTimeIn', 'samplesIn',
+        'totTimeIn', 'biasIn', 'tempIn', 'pressureIn', 
+        'correctionIn', 'averagesIn', 'measTimeIn', 'intervalTimeIn',
+        'pC', 'pA'
+        ]
         
     def buttons(self,win):
         self.getAll = Button(win, text = 'Get All')
@@ -164,9 +193,68 @@ class MyWindow:
         self.pC.place(x = 300 + dispResultsX, y = 327,width = 175, )
         self.pA_Label.place(x = 75 + dispResultsX, y = 375,)
         self.pA.place(x = 300 + dispResultsX, y = 372,width = 175, )
+    
+    def binding(self,win):
+        # self.entry_1_var = StringVar()
+        # self.entry_2_var = StringVar()
+
+        # self.string = 'intTimein'
+        # self.measIn.bind('<FocusIn>',lambda e: self.set_active_entry('measVar'))
+        # getattr(self, self.entryList[2]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[2]))
+        #---- To Review -- #
+        # for i in range(len(self.textVariables)):
+        #     print(str(i))
+        #     print(str(self.entryList[i]))
+        #     print(str(self.textVariables[i]))
+        #     getattr(self, self.entryList[i]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[i]))
         
+        # -- To Review Above -- #
+        #     getattr(self, self.entryList[i]).bind('<FocusOut>',lambda e: self.set_active_entry(self.textVariables[i]))
+        # self.textVariables
+        # self.intTimeIn.bind('<FocusIn>',lambda f: self.set_active_entry('intTimeVar'))
+
+# DISGUSTING CODE I KNOW
+        getattr(self, self.entryList[0]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[0]))
+        getattr(self, self.entryList[1]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[1]))
+        getattr(self, self.entryList[2]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[2]))
+        getattr(self, self.entryList[3]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[3]))
+        getattr(self, self.entryList[4]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[4]))
+        getattr(self, self.entryList[5]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[5]))
+        getattr(self, self.entryList[6]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[6]))
+        getattr(self, self.entryList[7]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[7]))
+        getattr(self, self.entryList[8]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[8]))
+        getattr(self, self.entryList[9]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[9]))
+        getattr(self, self.entryList[10]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[10]))
+        # getattr(self, self.entryList[11]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[11]))
+        # getattr(self, self.entryList[8]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[8]))
+        
+        
+        
+        # self.intTimeIn.bind('<FocusOut>',self.numpadExit)
+        # self.measIn.bind('<FocusOut>',self.numpadExit)
 
 
+    def numpadEntry(self):
+        if self.edited == False:
+            print("You Clicked on me")
+            # self.e['bg']= '#ffffcc'
+            self.edited = True
+            new = numPad(self,self)
+        else:
+            self.edited = False
+
+    def numpadExit(self,event):
+        print('hi')
+        # self.e['bg']= '#ffffff'
+    
+    def set_active_entry(self, name): 
+        self._active_entry = name
+        print(self._active_entry)
+        numPad(self,self)
+    
+    @property
+    def active_entry(self):
+        return getattr(self, self._active_entry)
 
 class numPad(simpledialog.Dialog):
     def __init__(self,master=None,parent=None):
@@ -212,8 +300,7 @@ class numPad(simpledialog.Dialog):
         self.top.destroy()
         self.top.master.focus()
 
-
-path = '/Users/dmackey/Desktop/ENGGY4S2/ECE491/GUI/Decay.png'
+# path = '/Users/dmackey/Desktop/ENGGY4S2/ECE491/GUI/Decay.png'
 
 
 
