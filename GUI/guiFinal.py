@@ -3,6 +3,8 @@ from tkinter import *
 from tkinter.ttk import Combobox
 import tkSimpleDialog as simpledialog
 from PIL import ImageTk, Image
+import pandas as pd
+import numpy as np
 
 
 class MyWindow:
@@ -23,6 +25,7 @@ class MyWindow:
         # background_label.place(x=0, y=0, relwidth=1, relheight=1)
         
         # --- Establishing Entry Variables ---#
+        # HEY TONY THIS IS WHERE THE DATA IS STORED!
 
         self.measVar = StringVar()
         self.intTimeVar = StringVar()
@@ -42,6 +45,11 @@ class MyWindow:
         'totTimeVar', 'biasVar', 'tempVar', 'pressureVar',
         'correctionVar', 'averagesVar', 'measTimeVar', 'intervalTimeVar',
         'pCVar', 'pAVar'
+        ]
+
+        self.textVariables2 = [self.measVar, self.intTimeVar, self.samplesVar,
+        self.totTimeVar, self.biasVar, self.tempVar, self.pressureVar,
+        self.correctionVar, self.averagesVar, self.measTimeVar, self.intervalTimeVar,
         ]
 
 
@@ -107,8 +115,8 @@ class MyWindow:
         self.getAll = Button(win, text = 'Get All')
         self.setAll = Button(win, text = 'Set All')
         self.zero = Button(win, text = 'Zero')
-        # START/STOP Button Pl
-        self.startButton = Button(win, text = 'Start/Stop Measurements')
+        # START/STOP Button 
+        self.startButton = Button(win, text = 'Start/Stop Measurements',command = self.submit_data)
 
         # Radio Buttons
         channel = IntVar()
@@ -213,7 +221,7 @@ class MyWindow:
         # self.textVariables
         # self.intTimeIn.bind('<FocusIn>',lambda f: self.set_active_entry('intTimeVar'))
 
-# DISGUSTING CODE I KNOW
+# DISGUSTING CODE, I KNOW
         getattr(self, self.entryList[0]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[0]))
         getattr(self, self.entryList[1]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[1]))
         getattr(self, self.entryList[2]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[2]))
@@ -225,9 +233,9 @@ class MyWindow:
         getattr(self, self.entryList[8]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[8]))
         getattr(self, self.entryList[9]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[9]))
         getattr(self, self.entryList[10]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[10]))
-        # getattr(self, self.entryList[11]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[11]))
-        # getattr(self, self.entryList[8]).bind('<FocusIn>',lambda e: self.set_active_entry(self.textVariables[8]))
         
+        
+
         
         
         # self.intTimeIn.bind('<FocusOut>',self.numpadExit)
@@ -255,6 +263,31 @@ class MyWindow:
     @property
     def active_entry(self):
         return getattr(self, self._active_entry)
+   
+   
+    # -- IMPORTANT FUNCTION FOR SENDING OFF THE VARIABLES --#  
+    
+    def submit_data(self):
+        data_list = []
+        # Create a list to get all the inputted values
+        # Programed for Readibility
+        for item in self.textVariables2:
+            data_list.append(item.get())
+        
+        # for value in data_list:
+        #     if(value == ''):
+        #         print("You're missing entries")
+        #         break
+            
+        #     else:
+        test_list = np.arange(len(data_list))
+        df_test = pd.DataFrame([data_list],    # values   # 1st column as index
+        columns=self.textVariables[0:-2])  # 1st row as the column names
+        df_test.to_csv("Test.csv")
+
+        
+
+        
 
 class numPad(simpledialog.Dialog):
     def __init__(self,master=None,parent=None):
