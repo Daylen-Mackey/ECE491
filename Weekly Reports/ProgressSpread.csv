@@ -1,0 +1,23 @@
+﻿Date,Week,Goal #,Goal,Status
+2020-01-27,1,1,Format the new Raspberry Pi and install necessary frameworks ,Completed
+2020-01-27,1,2,Build simple TkInter GUI for testing Purposes,In Progress
+2020-01-27,1,3,Integrate GUI with Raspberry Pi and touchscreen,Completed
+2020-01-27,1,4,Test BME sensors on the Raspberry Pi,In Progress
+2020-02-03,2,2,Build simple TkInter GUI for testing Purposes,Completed
+2020-02-03,2,4,Test BME sensors on the Raspberry Pi,In Progress
+2020-02-03,2,5,Establish UWS Wi-Fi connection with the raspberry pi ,Completed
+2020-02-03,2,6,Test the Electrometer Code with Octave (Get the electrometer running through Octave),In Progress
+2020-02-03,2,7,Begin GUI backend construction (passing input data to raspberry pi),In Progress
+2020-02-10,3,4,Test BME sensors on the Raspberry Pi,Completed
+2020-02-10,3,6,Test the Electrometer Code with Octave (Get the electrometer running through Octave),In Progress
+2020-02-10,3,7,Begin GUI backend construction (passing input data to raspberry pi),Completed
+2020-02-10,3,8,Install MATLAB on the R-Pi 4B (and test code if possible) ,In Progress
+2020-02-10,3,9,Debug the Electrometer via Oscilloscope,Abandoned
+2020-02-10,3,10,Log input data to csv or txt file ,Completed
+2020-02-23,4,6,Test the Electrometer Code with Octave (Get the electrometer running through Octave),In Progress
+2020-02-23,4,8,Install MATLAB on the R-Pi 4B (and test code if possible) ,In Progress
+2020-02-23,4,11,Integrate the Temperature/Pressure sensor with the GUI,In Progress
+2020-02-23,4,12,Use Dr. Barlage’s current source and new adapters to test the electrometer.  ,Completed
+2020-02-23,4,13,Test Sensor results against pressure and barometer,In Progress
+2020-02-23,4,14,Compile Task Data for Progress Report,Completed
+2020-02-23,4,15,Run simulations to test GUI abnormalities and edge cases,Completed

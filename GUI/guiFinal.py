@@ -6,6 +6,8 @@ from PIL import ImageTk, Image
 import pandas as pd
 import numpy as np
 
+import matlab.engine
+
 
 class MyWindow:
     def __init__(self, win):
@@ -280,10 +282,38 @@ class MyWindow:
         #         break
             
         #     else:
+
+        succ_rate = 0
+        for i in range(500):
+            test_list = np.random.randint(-10000,10000,size=(11))
+                    # df_test = pd.DataFrame([data_list],
+            df_test = pd.DataFrame([test_list])    # values   # 1st column as index
+                    # columns=self.textVariables[0:-2])  # 1st row as the column names
+            df_test.to_csv("Test.csv")
+            eng = matlab.engine.start_matlab()
+            eng.MatlabTest(nargout=0)
+            eng.quit()
+
+            df_read = pd.read_csv('MatlabTest.csv')
+
+            matrix = (df_read.drop('NaN', axis = 1).values == df_test)
+            if(matrix.sum().sum() == 11):
+                succ_rate += 1
+            
+        print(succ_rate)
+        # ---- REGULAR CODE BELOW ----#
         test_list = np.arange(len(data_list))
-        df_test = pd.DataFrame([data_list],    # values   # 1st column as index
-        columns=self.textVariables[0:-2])  # 1st row as the column names
+        # df_test = pd.DataFrame([data_list],
+        df_test = pd.DataFrame([test_list])    # values   # 1st column as index
+        # columns=self.textVariables[0:-2])  # 1st row as the column names
         df_test.to_csv("Test.csv")
+        eng = matlab.engine.start_matlab()
+        eng.MatlabTest(nargout=0)
+        eng.quit()
+
+        df_read = pd.read_csv('MatlabTest.csv')
+        # --- REGULAR CODE ABOVE ---#
+        # print(T)
 
         
 
